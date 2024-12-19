@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, NavLink ,Link} from 'react-router-dom';
+import { Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 import Films from './Components/Left/Films';
 import List from './Components/Right/List';
 import './App.css';
@@ -27,47 +27,51 @@ function App() {
   };
 
   return (
-  
-      <div className="App">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Films addToFavorites={addToFavorites} isLocked={isLocked} favorites={favorites} />
-                <List
-                  favorites={favorites}
-                  isLocked={isLocked}
-                  handleSendClick={handleSendClick}
-                  handleDeleteClick={handleDeleteClick} 
-                />
-
-                {listVisible && (
-                  <NavLink to="/list">
-                    <button className="see-list-button">See List</button>
-                  </NavLink>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/list"
-            element={<ListPage favorites={favorites} listName={listName} />}
-          />
-        </Routes>
-      </div>
-  
+    <div className="App">
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Films addToFavorites={addToFavorites} isLocked={isLocked} favorites={favorites} />
+              <List
+                favorites={favorites}
+                isLocked={isLocked}
+                handleSendClick={handleSendClick}
+                handleDeleteClick={handleDeleteClick} 
+              />
+              {listVisible && (
+                <NavLink to="/list">
+                  <button className="see-list-button">See List</button>
+                </NavLink>
+              )}
+            </>
+          }
+        />
+        <Route
+          path="/list"
+          element={<ListPage favorites={favorites} listName={listName} />}
+        />
+      </Routes>
+    </div>
   );
 }
 
 const ListPage = ({ favorites, listName }) => {
+  const navigate = useNavigate(); // useNavigate hookunu əlavə edin
+
+  const handleGoToHome = () => {
+    navigate("/"); // React Router vasitəsilə əsas səhifəyə keçid
+    window.location.reload(); // Səhifəni yenidən yükləyir
+  };
+
   const redirectToIMDb = (imdbID) => {
     window.location.href = `https://www.imdb.com/title/${imdbID}/`;
   };
 
   return (
     <div className="list-page">
-      <Link to="/" className='link'>Go to home</Link>
+      <button onClick={handleGoToHome} className='link'>Go to home</button>
       <h2>{listName}</h2>
       {favorites.map((film, i) => (
         <div key={i} className="favorite-item">
@@ -81,4 +85,5 @@ const ListPage = ({ favorites, listName }) => {
     </div>
   );
 };
+
 export default App;
