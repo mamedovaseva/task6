@@ -58,11 +58,11 @@ function App() {
 }
 
 const ListPage = ({ favorites, listName }) => {
-  const navigate = useNavigate(); // useNavigate hookunu əlavə edin
+  const navigate = useNavigate(); 
 
   const handleGoToHome = () => {
-    navigate("/"); // React Router vasitəsilə əsas səhifəyə keçid
-    window.location.reload(); // Səhifəni yenidən yükləyir
+    navigate("/"); 
+    window.location.reload();
   };
 
   const redirectToIMDb = (imdbID) => {
